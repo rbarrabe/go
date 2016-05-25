@@ -458,16 +458,42 @@ func calcLogfileNum(files []string) int {
 }
 
 func genLogPrefix(buf *buffer, logLevel, skip int, t time.Time) {
+	
+	y, M, d := t.Date()
 	h, m, s := t.Clock()
 
+	i := 0
+
+	switch M {
+		case time.January : i = 1
+		case time.February : i = 2
+		case time.March : i = 3
+		case time.April : i = 4
+		case time.May : i = 5
+		case time.June : i = 6
+		case time.July : i = 7
+		case time.August : i = 8
+		case time.September : i = 9
+		case time.October : i = 10
+		case time.November : i = 11
+		case time.December : i = 12
+		default : i = 0
+	}
+
+
 	// time
-	buf.tmp[0] = gLogLevelChar[logLevel]
-	buf.twoDigits(1, h)
-	buf.tmp[3] = ':'
-	buf.twoDigits(4, m)
-	buf.tmp[6] = ':'
-	buf.twoDigits(7, s)
-	buf.Write(buf.tmp[:9])
+	buf.fourDigits(0, y)
+	buf.tmp[4] = '-'
+	buf.twoDigits(5, i)
+	buf.tmp[7] = '-'
+	buf.twoDigits(8, d)
+	buf.tmp[10] = ' '
+	buf.twoDigits(11, h)
+	buf.tmp[13] = ':'
+	buf.twoDigits(14, m)
+	buf.tmp[16] = ':'
+	buf.twoDigits(17, s)
+	buf.Write(buf.tmp[:19])
 
 	var pc uintptr
 	var ok bool

@@ -25,6 +25,17 @@ func (buf *buffer) twoDigits(i, d int) {
 	buf.tmp[i] = digits[d%10]
 }
 
+// twoDigits formats a zero-prefixed two-digit integer at buf.tmp[i].
+func (buf *buffer) fourDigits(i, d int) {
+	buf.tmp[i+3] = digits[d%10]
+	d /= 10
+	buf.tmp[i+2] = digits[d%10]
+	d /= 10
+	buf.tmp[i+1] = digits[d%10]
+	d /= 10
+	buf.tmp[i] = digits[d%10]
+}
+
 // nDigits formats an n-digit integer at buf.tmp[i],
 // padding with pad on the left.
 // It assumes d >= 0.
